@@ -1,14 +1,20 @@
 #!/bin/bash
 
 SERVICE="nginx"
-LOG_FILE="../logs/incidents.log"
+
+PROJECT_DIR="$HOME/linuxOps-auto-healing-"
+LOG_FILE="$PROJECT_DIR/logs/incidents.log"
+
+MAX_RETRIES=2
+RETRY_DELAY=5
+
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 echo "===================================="
 echo "       LinuxOps Auto-Healing"
 echo "===================================="
 
-# Check whether nginx is running
+# Check if service is already running
 if systemctl is-active --quiet "$SERVICE"
 then
     echo "Service : $SERVICE"
@@ -18,27 +24,50 @@ then
     exit 0
 fi
 
-# Service is down
 echo "Service : $SERVICE"
 echo "Status  : DOWN"
-echo "Action  : Restarting $SERVICE"
 
-echo "$TIMESTAMP | $SERVICE | DOWN | RECOVERY_ATTEMPTED" >> "$LOG_FILE"
+echo "$TIMESTAMP | $SERVICE | DOWN | RECOVERY_STARTED" >> "$LOG_FILE"
 
-# Restart service
-sudo systemctl restart "$SERVICE"
+# Recovery attempts
+for ((ATTEMPT=1; ATTEMPT<=MAX_RETRIES; ATTEMPT++))
+do
 
-# Give nginx time to start
-sleep 2
+    echo "Recovery Attempt : $ATTEMPT/$MAX_RETRIES"
 
-# Verify recovery
-if systemctl is-active --quiet "$SERVICE" && curl -fsS http://localhost > /dev/null
-then
-    echo "Status  : RECOVERED"
-    echo "$TIMESTAMP | $SERVICE | RECOVERED" >> "$LOG_FILE"
-else
-    echo "Status  : RECOVERY FAILED"
-    echo "$TIMESTAMP | $SERVICE | RECOVERY_FAILED" >> "$LOG_FILE"
-fi
+    echo "$TIMESTAMP | $SERVICE | RECOVERY_ATTEMPT=$ATTEMPT" >> "$LOG_FILE"
+
+    sudo systemctl restart "$SERVICE"
+
+    sleep 2
+
+    # Service health check
+    if systemctl is-active --quiet "$SERVICE" && curl -fsS http://localhost > /dev/null
+    then
+        echo "Status  : RECOVERED"
+
+        echo "$(date '+%Y-%m-%d %H:%M:%S') | $SERVICE | RECOVERED | ATTEMPT=$ATTEMPT" >> "$LOG_FILE"
+
+        echo "===================================="
+
+        exit 0
+    fi
+
+    echo "Recovery attempt $ATTEMPT failed"
+
+    if [ "$ATTEMPT" -lt "$MAX_RETRIES" ]
+    then
+        echo "Waiting $RETRY_DELAY seconds before retry..."
+        sleep "$RETRY_DELAY"
+    fi
+
+done
+
+# All attempts failed
+echo "Status  : RECOVERY FAILED"
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') | $SERVICE | RECOVERY_FAILED | ALERT_REQUIRED" >> "$LOG_FILE"
 
 echo "===================================="
+
+exit 1
