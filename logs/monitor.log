@@ -1,0 +1,23 @@
+[H[2J[3J==========================================
+          LinuxOps Monitor
+==========================================
+Time: Tue Sep 22 05:26:47 PM UTC 2026
+
+CPU Usage     : 15%
+Status        : NORMAL
+
+Memory Usage  : 36.62%
+Status        : NORMAL
+
+Disk Usage    : 28%
+Status        : NORMAL
+
+Load Average  : 0.14
+
+Hostname      : Ubuntu
+Uptime        : up 7 minutes
+
+==========================================
+Next check in 5 seconds...
+Press Ctrl+C to stop
+==========================================
