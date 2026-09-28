@@ -1,0 +1,818 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Courier New", monospace;
+    background: #050807;
+    color: #d1fae5;
+
+    /* subtle hacker-terminal grid */
+    background-image:
+        linear-gradient(
+            rgba(0, 255, 136, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 255, 136, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 35px 35px;
+
+    animation: backgroundMove 12s linear infinite;
+}
+
+
+/* =========================
+   BACKGROUND ANIMATION
+   ========================= */
+
+@keyframes backgroundMove {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 35px 35px;
+    }
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+header {
+    position: relative;
+
+    padding: 20px 30px;
+
+    background: rgba(8, 12, 10, 0.96);
+
+    border-bottom: 1px solid #1f6f46;
+
+    box-shadow:
+        0 0 15px rgba(0, 255, 120, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* scanning line */
+
+header::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: -100%;
+
+    width: 100%;
+
+    height: 2px;
+
+    background: #00ff88;
+
+    box-shadow:
+        0 0 10px #00ff88;
+
+    opacity: 0.4;
+
+    animation: headerScan 5s linear infinite;
+}
+
+
+@keyframes headerScan {
+
+    0% {
+        top: -10%;
+    }
+
+    100% {
+        top: 110%;
+    }
+
+}
+
+
+header h1 {
+
+    margin: 0;
+
+    color: #00ff88;
+
+    font-size: 26px;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 5px rgba(0, 255, 136, 0.5);
+
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+
+@keyframes titleGlow {
+
+    0% {
+        text-shadow:
+            0 0 4px rgba(0, 255, 136, 0.3);
+    }
+
+    50% {
+        text-shadow:
+            0 0 14px rgba(0, 255, 136, 0.7);
+    }
+
+    100% {
+        text-shadow:
+            0 0 4px rgba(0, 255, 136, 0.3);
+    }
+
+}
+
+
+header p {
+
+    margin: 8px 0 0;
+
+    color: #6ee7b7;
+
+    font-size: 13px;
+
+    opacity: 0.85;
+}
+
+
+/* =========================
+   MAIN
+   ========================= */
+
+main {
+
+    padding: 30px;
+
+    max-width: 1400px;
+
+    margin: auto;
+}
+
+
+/* =========================
+   TERMINAL BAR
+   ========================= */
+
+.terminal-bar {
+
+    position: relative;
+
+    background: #0a100d;
+
+    border: 1px solid #1f6f46;
+
+    padding: 12px 16px;
+
+    margin-bottom: 25px;
+
+    color: #00ff88;
+
+    overflow: hidden;
+
+}
+
+
+/* terminal cursor */
+
+.terminal-bar::after {
+
+    content: "_";
+
+    margin-left: 5px;
+
+    color: #00ff88;
+
+    animation: cursorBlink 1s infinite;
+
+}
+
+
+@keyframes cursorBlink {
+
+    0%,
+    45% {
+        opacity: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 0;
+    }
+
+}
+
+
+.terminal-bar::before {
+
+    content: "root@linuxops:~$ ";
+
+    color: #22c55e;
+}
+
+
+/* =========================
+   CARDS
+   ========================= */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+}
+
+
+.card {
+
+    position: relative;
+
+    background: rgba(10, 16, 13, 0.94);
+
+    padding: 22px;
+
+    border: 1px solid #1b4d36;
+
+    border-radius: 4px;
+
+    box-shadow:
+        0 0 10px rgba(0, 255, 120, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+    overflow: hidden;
+
+}
+
+
+/* moving light across card */
+
+.card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: -100%;
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #00ff88;
+
+    box-shadow:
+        0 0 8px #00ff88;
+
+    animation: cardScan 4s linear infinite;
+}
+
+
+@keyframes cardScan {
+
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+
+}
+
+
+.card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #00ff88;
+
+    box-shadow:
+        0 0 15px rgba(0, 255, 120, 0.18),
+        0 0 30px rgba(0, 255, 120, 0.05);
+}
+
+
+.card h3 {
+
+    margin-top: 0;
+
+    color: #86efac;
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+.card p {
+
+    margin: 10px 0 0;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: #00ff88;
+
+    text-shadow:
+        0 0 8px rgba(0, 255, 136, 0.35);
+}
+
+
+/* =========================
+   STATUS COLORS
+   ========================= */
+
+.status-online {
+
+    color: #00ff88;
+
+    text-shadow:
+        0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+
+.status-warning {
+
+    color: #facc15;
+
+    text-shadow:
+        0 0 8px rgba(250, 204, 21, 0.4);
+}
+
+
+.status-danger {
+
+    color: #ff4444;
+
+    text-shadow:
+        0 0 8px rgba(255, 68, 68, 0.5);
+
+    animation: dangerPulse 1.2s infinite;
+}
+
+
+.status-offline {
+
+    color: #ff3333;
+}
+
+
+@keyframes dangerPulse {
+
+    50% {
+        opacity: 0.5;
+    }
+
+}
+
+
+/* =========================
+   PANELS
+   ========================= */
+
+.panel {
+
+    position: relative;
+
+    background: #080c0a;
+
+    border: 1px solid #1b4d36;
+
+    margin-bottom: 25px;
+
+    border-radius: 4px;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.panel:hover {
+
+    border-color: #246d49;
+
+    box-shadow:
+        0 0 15px rgba(0, 255, 120, 0.05);
+}
+
+
+.panel-title {
+
+    padding: 14px 18px;
+
+    background: #0d1511;
+
+    color: #00ff88;
+
+    border-bottom: 1px solid #1b4d36;
+
+    font-size: 14px;
+
+    letter-spacing: 1px;
+}
+
+
+.panel-title::before {
+
+    content: "[+] ";
+
+    color: #22c55e;
+
+}
+
+
+/* =========================
+   TABLE
+   ========================= */
+
+table {
+
+    width: 100%;
+
+    background: #080c0a;
+
+    border-collapse: collapse;
+}
+
+
+th,
+td {
+
+    padding: 13px 16px;
+
+    border-bottom: 1px solid #17251e;
+
+    text-align: left;
+}
+
+
+th {
+
+    background: #0d1511;
+
+    color: #6ee7b7;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+td {
+
+    color: #c7f9dc;
+
+    font-size: 13px;
+}
+
+
+tr {
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+tr:hover {
+
+    background: #0d1812;
+
+    box-shadow:
+        inset 3px 0 #00ff88;
+}
+
+
+/* =========================
+   TERMINAL LOG
+   ========================= */
+
+.log {
+
+    position: relative;
+
+    background: #020403;
+
+    padding: 18px;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    color: #00ff88;
+
+    border: 1px solid #153d29;
+
+    overflow: hidden;
+}
+
+
+/* terminal scan */
+
+.log::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: -20px;
+
+    width: 100%;
+
+    height: 20px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(0, 255, 136, 0.08),
+            transparent
+        );
+
+    animation: logScan 4s linear infinite;
+}
+
+
+@keyframes logScan {
+
+    from {
+        top: -20px;
+    }
+
+    to {
+        top: 100%;
+    }
+
+}
+
+
+.log .warning {
+
+    color: #facc15;
+
+}
+
+
+.log .error {
+
+    color: #ff4444;
+
+    text-shadow:
+        0 0 6px rgba(255, 68, 68, 0.5);
+}
+
+
+.log .info {
+
+    color: #38bdf8;
+}
+
+
+/* =========================
+   SECURITY ALERT
+   ========================= */
+
+.alert {
+
+    padding: 15px;
+
+    border-left: 4px solid #ff3333;
+
+    background: #160808;
+
+    color: #ff6666;
+
+    margin-bottom: 15px;
+
+    animation: alertPulse 1.5s infinite;
+}
+
+
+.alert strong {
+
+    color: #ff3333;
+
+}
+
+
+@keyframes alertPulse {
+
+    50% {
+
+        box-shadow:
+            0 0 15px rgba(255, 50, 50, 0.12);
+
+    }
+
+}
+
+
+/* =========================
+   ONLINE INDICATOR
+   ========================= */
+
+.online-dot {
+
+    display: inline-block;
+
+    width: 9px;
+
+    height: 9px;
+
+    background: #00ff88;
+
+    border-radius: 50%;
+
+    margin-right: 8px;
+
+    box-shadow:
+        0 0 8px #00ff88;
+
+    animation: onlinePulse 1.5s infinite;
+}
+
+
+@keyframes onlinePulse {
+
+    0% {
+        box-shadow:
+            0 0 4px #00ff88;
+    }
+
+    50% {
+        box-shadow:
+            0 0 14px #00ff88;
+    }
+
+    100% {
+        box-shadow:
+            0 0 4px #00ff88;
+    }
+
+}
+
+
+/* =========================
+   BUTTON
+   ========================= */
+
+button {
+
+    position: relative;
+
+    background: transparent;
+
+    color: #00ff88;
+
+    border: 1px solid #00ff88;
+
+    padding: 10px 18px;
+
+    font-family: "Courier New", monospace;
+
+    cursor: pointer;
+
+    text-transform: uppercase;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+button:hover {
+
+    background: #00ff88;
+
+    color: #020403;
+
+    box-shadow:
+        0 0 15px rgba(0, 255, 136, 0.4);
+
+    transform: translateY(-2px);
+}
+
+
+button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+/* =========================
+   SCROLLBAR
+   ========================= */
+
+::-webkit-scrollbar {
+
+    width: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background: #030504;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background: #155e3b;
+
+    border-radius: 2px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: #00ff88;
+
+    box-shadow:
+        0 0 10px #00ff88;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 1000px) {
+
+    .cards {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    main {
+
+        padding: 15px;
+
+    }
+
+    .cards {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    table {
+
+        font-size: 11px;
+
+    }
+
+    th,
+    td {
+
+        padding: 9px;
+
+    }
+
+}

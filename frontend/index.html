@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LinuxOps Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>LinuxOps</h1>
+    <p>Linux Server Monitoring & Auto-Healing Platform</p>
+</header>
+
+<main>
+
+    <section class="cards">
+
+        <div class="card">
+            <h3>Total Incidents</h3>
+            <p id="total">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Open Incidents</h3>
+            <p id="open">0</p>
+        </div>
+
+        <div class="card">
+            <h3>High Severity</h3>
+            <p id="high">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Resolved</h3>
+            <p id="resolved">0</p>
+        </div>
+
+    </section>
+
+    <section>
+
+        <h2>Recent Incidents</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>Source</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+
+            <tbody id="incidentTable">
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<script src="app.js"></script>
+
+</body>
+</html>

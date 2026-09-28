@@ -1,0 +1,43 @@
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: linuxops-mysql
+
+    environment:
+      MYSQL_DATABASE: linuxops_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  linuxops-api:
+    build: .
+    container_name: linuxops-api
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/linuxops_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+  linuxops-frontend:
+    build: ./frontend
+    container_name: linuxops-frontend
+
+    ports:
+      - "5500:80"
+
+    depends_on:
+      - linuxops-api
+
+volumes:
+  mysql_data:
