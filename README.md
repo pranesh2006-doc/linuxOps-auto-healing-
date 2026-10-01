@@ -761,4 +761,4 @@ CI/CD
 
 # 📄 License
 
-This project is intended for educational and portfolio purposes.
+MIT LICENSE
